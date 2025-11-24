@@ -1,139 +1,149 @@
 # Design Guidelines: AI Research Paper Generator
 
 ## Design Approach
-**Selected Approach:** Design System - Academic Productivity Focus
+**System-Based:** Drawing from Notion's clarity, Overleaf's academic professionalism, and Google Scholar's trust signals. Prioritizes content hierarchy, readability, and scholarly aesthetics over decorative elements.
 
-Drawing inspiration from professional research tools like Overleaf, Notion, and Google Scholar. The design emphasizes clarity, readability, and trust - essential for academic tools. Focus on content hierarchy and functional efficiency over decorative elements.
-
-## Core Design Principles
-- **Academic Professionalism:** Clean, scholarly aesthetic that builds trust
-- **Content-First:** Typography and spacing optimized for reading long-form academic text
-- **Progressive Disclosure:** Show information as needed during the generation process
-- **Minimal Cognitive Load:** Clear affordances, obvious next steps
+**Core Principles:**
+- Academic credibility through clean, professional design
+- Progressive disclosure during generation workflow
+- Content-first with optimal reading experience
+- Minimal cognitive load with clear affordances
 
 ## Typography System
 
-**Font Families:**
-- Primary: Inter (via Google Fonts) - UI elements, headings, labels
-- Secondary: Georgia or Crimson Text - Generated paper preview content for readability
-- Monospace: JetBrains Mono - Technical elements, citations, DOIs
+**Font Families (Google Fonts CDN):**
+- UI/Headings: Inter (weights: 400, 500, 600, 700)
+- Paper Content: Crimson Text (weights: 400, 600) - superior readability for long-form
+- Technical: JetBrains Mono (weight: 400) - citations, DOIs, code blocks
 
 **Type Scale:**
-- Headings: text-3xl (main title), text-2xl (section headers), text-xl (subsections)
-- Body: text-base (16px) for forms and UI, text-lg for paper preview
-- Supporting: text-sm for labels, citations, metadata
-- Weight hierarchy: font-semibold for headers, font-medium for emphasis, font-normal for body
+- Hero title: text-4xl md:text-5xl font-bold
+- Section headers: text-2xl font-semibold
+- Subsections: text-xl font-semibold
+- Body UI: text-base
+- Paper preview: text-lg leading-relaxed
+- Metadata/labels: text-sm
+- Captions: text-xs
 
 ## Layout System
 
-**Spacing Primitives:** Tailwind units of 2, 4, 6, and 8
-- Micro spacing: p-2, gap-2 (8px) - tight groups, inline elements
-- Standard spacing: p-4, gap-4 (16px) - form fields, cards
-- Section spacing: p-6, py-6 (24px) - component padding
-- Major spacing: p-8, py-8 (32px) - page sections, containers
+**Spacing Primitives:** Tailwind units of 2, 4, 6, 8, 12
+- Tight groups: gap-2, p-2
+- Standard: gap-4, p-4 (forms, cards)
+- Sections: py-6, px-6
+- Major sections: py-12, px-8
+- Hero area: py-16
 
 **Container Strategy:**
-- Max width: max-w-4xl for main content (academic papers are narrow for readability)
-- Form width: max-w-2xl centered
-- Full-width preview: max-w-6xl for side-by-side previews
+- Main app: max-w-7xl mx-auto px-4
+- Input form: max-w-2xl centered
+- Paper preview: max-w-4xl (optimal academic reading width)
+- Two-column preview mode: max-w-6xl with grid-cols-2 gap-8
 
 ## Page Structure
 
-**Single-Page Application Layout:**
-1. **Header:** Simple, centered branding with app name and tagline
-2. **Input Section:** Prominent topic input with clear labeling
-3. **Generation Controls:** Generate button, citation style selector (APA/IEEE dropdown)
-4. **Progress Indicator:** Loading states with descriptive status (Fetching references, Generating content, Creating PDF)
-5. **Preview Section:** Expandable/collapsible paper preview with formatted sections
-6. **Action Area:** Download PDF button, regenerate option
+**Hero Section:**
+Clean, typography-focused header with subtle academic texture (no large hero image - inappropriate for productivity tool)
+- App name: text-4xl md:text-5xl font-bold, centered
+- Tagline: text-xl text-muted, centered, max-w-2xl
+- Subtle background: Very faint grid pattern or abstract geometric shapes suggesting academic structure
+- Height: py-16 (not full viewport)
 
-**Vertical Flow:**
-- py-8 for header
-- py-12 for input section (hero-like prominence)
-- py-6 for controls
-- py-8 for preview
-- py-6 for actions
+**Main Application Flow:**
+
+1. **Input Section** (py-12, bg-subtle):
+   - Large textarea (min-h-32, rounded-lg, border-2)
+   - Placeholder: "Enter your research topic... (e.g., 'Impact of quantum computing on cryptographic security')"
+   - Character counter (text-sm, text-right)
+   - Helper text below with tips icon
+   - Settings row: Citation style dropdown (APA/IEEE/MLA) + Paper length selector (Short/Medium/Comprehensive)
+
+2. **Generation Controls** (py-6):
+   - Large primary button: "Generate Research Paper" (px-12 py-4, text-lg, rounded-lg)
+   - Advanced options disclosure: Parameters, tone, depth controls
+
+3. **Progress Indicator** (py-8, appears during generation):
+   - Multi-step progress bar with icons
+   - Steps: "Analyzing Topic" → "Fetching References" → "Generating Sections" → "Formatting Citations" → "Creating PDF"
+   - Estimated time remaining with animated spinner
+   - Current step description in text-base
+
+4. **Preview Section** (py-8, border-t):
+   - Tab navigation: "Preview" | "References" | "Outline"
+   - Paper preview card with shadow-lg, rounded-lg, p-8
+   - Section toggles: Collapsible Abstract, Introduction, Methods, Results, Discussion, Conclusion
+   - Each section: Clear heading (text-xl font-semibold mb-4), content with proper paragraph spacing (space-y-4)
+   - In-line citation highlighting on hover
+   - Word count badge per section
+
+5. **Action Bar** (py-6, sticky bottom):
+   - Primary: "Download PDF" button (px-8 py-3, with download icon)
+   - Secondary: "Regenerate" button, "Edit & Customize" button
+   - Share options: Copy link, export to LaTeX
 
 ## Component Library
 
-**Input Field:**
-- Large text area (min-h-24) with placeholder "Enter your research topic..."
-- Border styling with focus states
-- Helper text below: "Be specific for better results (e.g., 'Machine learning in climate prediction')"
+**Input Components:**
+- Textarea: rounded-lg, border-2, focus:ring-2, p-4, font-medium
+- Dropdowns: Custom styled with chevron icon, rounded-md, border
+- Toggle switches: For abstract inclusion, reference count, etc.
 
 **Buttons:**
-- Primary: Generate Paper - prominent, full padding (px-8 py-3)
-- Secondary: Download PDF - medium prominence (px-6 py-2.5)
-- Ghost: Regenerate, Clear - minimal styling
+- Primary: Full padding (px-8 py-3), rounded-lg, font-semibold, text-base, shadow-md
+- Secondary: Border variant, px-6 py-2.5, rounded-md
+- Tertiary: Ghost style, px-4 py-2, hover:bg-subtle
 
-**Loading States:**
-- Spinner with progress text
-- Step indicators: "1. Fetching references from Semantic Scholar" → "2. Generating paper sections" → "3. Formatting PDF"
-- Estimated time remaining
+**Cards:**
+- Paper preview: border, shadow-lg, rounded-lg, p-8, bg-white
+- Section cards: border-l-4 (accent border), p-6, mb-4, rounded-r-lg
+- Reference cards: p-4, border-b, hover:bg-subtle, cursor-pointer
 
-**Preview Card:**
-- Border, subtle shadow
-- Organized sections with clear headings
-- Collapsible sections using disclosure triangles
-- Typography matching final PDF: section headings in text-xl font-semibold, content in text-base
-- References list with hanging indent, DOI links
+**Status Indicators:**
+- Success toast: Checkmark icon, green accent, auto-dismiss
+- Error state: Red accent, retry button, helpful message
+- Warning: Yellow accent for suggestions/tips
+- Loading skeleton: Animated pulse for preview sections
 
-**Citation Style Selector:**
-- Simple dropdown: "Citation Style: APA" with options for IEEE
-- Placed near generate button
-
-**Status Messages:**
-- Success: Subtle background, checkmark icon
-- Error: Clear error messaging with retry options
-- Info: Helpful tips during idle state
+**Citation Display:**
+- In-text: Superscript numbers [1] or (Author, Year), clickable links
+- Reference list: Numbered, hanging indent (pl-6, -indent-6), DOI as link with external icon
+- Hover preview: Small popover showing full citation on hover
 
 ## Academic-Specific Elements
 
-**Paper Preview Structure:**
-- Title: text-2xl font-bold, centered
-- Author placeholder: text-sm, centered, mb-6
-- Sections: Clear visual hierarchy with consistent spacing
-- Abstract: Italic styling or subtle background to differentiate
-- References: Numbered or formatted per style, hanging indent (ml-6)
+**Paper Preview Formatting:**
+- Title: text-3xl font-bold, text-center, mb-2
+- Authors: text-sm, text-center, mb-6, italic
+- Abstract: Bordered box (border-l-4), p-6, bg-subtle, mb-8, italic
+- Section headings: text-xl font-semibold, border-b-2, pb-2, mb-4
+- Figures/Tables placeholders: Border-dashed, p-8, text-center, bg-subtle
+- Footnotes: text-xs, border-t, pt-4, mt-8
 
-**Citation Display:**
-- In-text citations: [1], [2] or (Author, Year) depending on style
-- Reference list: Clear formatting with all metadata visible
-- DOI links: Subtle, not overwhelming
-
-## Accessibility & Usability
-
-**Form Accessibility:**
-- Proper label associations
-- Focus indicators on all interactive elements
-- Keyboard navigation support
-- Clear error messages tied to inputs
-
-**Content Readability:**
-- Line height: leading-relaxed (1.625) for paper preview
-- Optimal line length: max 75 characters (max-w-prose for preview content)
-- Sufficient contrast ratios for all text
-
-## Performance Indicators
-
-**Loading Experience:**
-- Skeleton screens for preview area during generation
-- Progress bar with percentage
-- Disable generate button during processing to prevent double-submission
-- Keep UI responsive, show status updates every few seconds
+**Reference Management:**
+- Search references: Input with magnifying glass icon
+- Filter by: Author, Year, Source type
+- Citation count badge
+- "Add custom reference" button
 
 ## Responsive Behavior
 
-- Desktop (lg): Side-by-side preview option, wider controls
-- Tablet (md): Stacked layout, full-width preview
-- Mobile: Single column, touch-friendly buttons (min-height: 44px)
+- Desktop (lg+): Two-column preview option, side-by-side settings
+- Tablet (md): Full-width preview, stacked controls
+- Mobile: Single column, touch-optimized buttons (min-h-12), collapsible sections default closed
 
-## Micro-interactions
+## Micro-interactions (Minimal)
 
-**Minimal Animation:** Use sparingly
-- Button press: Subtle scale or opacity change
-- Section expand/collapse: Smooth height transition (transition-all duration-200)
-- Loading spinner: Smooth rotation
-- Avoid: Parallax, scroll-triggered animations, unnecessary flourishes
+- Button press: Subtle scale transform (scale-95)
+- Section expand: Smooth height transition (transition-all duration-300)
+- Citation hover: Gentle background highlight
+- Progress bar: Smooth width animation
+- No scroll animations, parallax, or unnecessary effects
 
-This design creates a professional, trustworthy academic tool that prioritizes content and functionality while maintaining visual clarity and usability.
+## Images
+
+**No large hero image.** Instead:
+- Subtle background texture in header: Abstract academic patterns (light grid, geometric shapes)
+- Icon library: Heroicons for UI elements (download, expand, settings, checkmark)
+- Placeholder images for future features: "Sample paper preview" thumbnails in empty states
+
+This creates a professional, scholarly tool prioritizing content clarity and functional efficiency while maintaining visual polish appropriate for academic work.
