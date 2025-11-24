@@ -1,18 +1,27 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+export const researchPaperSchema = z.object({
+  id: z.string(),
+  topic: z.string(),
+  title: z.string(),
+  abstract: z.string(),
+  introduction: z.string(),
+  methods: z.string(),
+  results: z.string(),
+  discussion: z.string(),
+  conclusion: z.string(),
+  references: z.array(z.object({
+    title: z.string(),
+    authors: z.array(z.string()),
+    year: z.number(),
+    doi: z.string().optional(),
+    url: z.string().optional(),
+  })),
+  citationStyle: z.enum(['APA', 'IEEE', 'MLA']).default('APA'),
+  generatedAt: z.string(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
+export const insertResearchPaperSchema = researchPaperSchema.omit({ id: true, generatedAt: true });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type ResearchPaper = z.infer<typeof researchPaperSchema>;
+export type InsertResearchPaper = z.infer<typeof insertResearchPaperSchema>;
