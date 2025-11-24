@@ -1,0 +1,55 @@
+I want you to build a **full-stack AI Research Paper Generator web application** using React.js for frontend and Node.js (Express) for backend. 
+The app should allow a user to:
+
+1. Input a research topic in a text field.
+2. Generate a full research paper using OpenAI GPT-5 mini (or GPT-4) with:
+   - Sections: Abstract, Introduction, Methods, Results, Discussion, Conclusion.
+   - Authentic references from real research papers (use Semantic Scholar API to fetch papers, include titles, authors, year, DOI).
+   - Proper citations in the text referencing the fetched papers.
+3. Generate a **downloadable PDF** of the paper with proper formatting, including all sections and references.
+
+**Requirements:**
+
+**Frontend (React + Tailwind):**
+- Input box for topic.
+- Generate button.
+- Optional: Preview of generated paper.
+- Download button for PDF.
+
+**Backend (Node.js + Express):**
+- Endpoint `/api/generate` to:
+  - Accept topic from frontend.
+  - Fetch real references via Semantic Scholar API.
+  - Send prompt to OpenAI GPT-5 mini for paper generation with references.
+  - Generate a downloadable PDF using pdf-lib.
+- Send the PDF back to the frontend for download.
+
+**Backend Details:**
+- Use environment variable for OpenAI API key.
+- Structure project folders as:
+  - `/routes` for API routes
+  - `/services` for LLM and reference fetching
+  - `/utils` for PDF generation
+
+**PDF Generation:**
+- Title at top
+- Sections with headings and content
+- References formatted clearly
+
+**Coding Requirements:**
+- Clean, production-ready code.
+- Include comments for clarity.
+- Include package.json with all dependencies.
+- Include instructions to run locally: `npm install` and `npm start`.
+
+**Extra Features (Optional but preferred):**
+- Multiple citation styles (APA, IEEE)
+- Section preview before download
+- Placeholder for figures/tables
+
+**Output:**
+- Provide all frontend and backend code.
+- Provide instructions to run the project locally.
+- Include any necessary setup for environment variables.
+
+Please generate **all files and folders required for this project** so it can be run directly on Replit.
