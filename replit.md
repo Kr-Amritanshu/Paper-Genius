@@ -34,14 +34,15 @@ Preferred communication style: Simple, everyday language.
 - **API Structure**: RESTful endpoint at `/api/generate` for paper generation
 
 **Core Services**:
-1. **OpenAI Service** (`server/services/openaiService.ts`):
-   - Uses OpenAI GPT-5 model for research paper generation
+1. **Gemini AI Service** (`server/services/openaiService.ts`):
+   - Uses Google Gemini 2.5 Flash model for research paper generation
    - Structured prompts that incorporate fetched references
    - Supports multiple citation styles (APA, IEEE, MLA)
-   - Generates all required sections with appropriate academic tone
+   - Generates comprehensive 10+ page papers with extensive citations
+   - Each section generated with specific word count requirements for academic rigor
 
 2. **Semantic Scholar Integration** (`server/services/semanticScholar.ts`):
-   - Fetches real academic papers based on topic search
+   - Fetches 20 real academic papers based on topic search
    - Returns title, authors, year, DOI, and URL for each reference
    - Provides authentic citations for inclusion in generated papers
 
@@ -95,7 +96,7 @@ ResearchPaper {
 ### External Dependencies
 
 **AI/ML Services**:
-- **OpenAI API**: GPT-5 model for research paper content generation (requires `OPENAI_API_KEY` environment variable)
+- **Google Gemini API**: Gemini 2.5 Flash model for research paper content generation (requires `GEMINI_API_KEY` environment variable)
 
 **Academic Data**:
 - **Semantic Scholar API**: Free academic paper search and metadata retrieval (no API key required)

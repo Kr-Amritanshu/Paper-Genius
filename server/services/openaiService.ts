@@ -33,21 +33,24 @@ Use the following REAL references in your paper. You MUST cite these references 
 
 ${referencesText}
 
-Generate a complete research paper with the following sections. Each section should be substantial and well-developed:
+Generate a complete research paper with the following sections. Each section should be EXTENSIVE and DETAILED to ensure the final paper is 10+ pages when converted to PDF:
 
 1. **Title**: Create a compelling, academic title for this research paper
-2. **Abstract**: 150-250 words summarizing the entire paper
-3. **Introduction**: Comprehensive introduction with background, context, and research objectives. Include in-text citations.
-4. **Methods**: Detailed methodology section explaining research approach, data collection, and analysis methods. Include citations where appropriate.
-5. **Results**: Present hypothetical but realistic findings and data relevant to the topic. Reference similar studies.
-6. **Discussion**: Interpret the results, compare with existing literature, discuss implications. Use citations extensively.
-7. **Conclusion**: Summarize findings, discuss limitations, and suggest future research directions.
+2. **Abstract**: 200-300 words summarizing the entire paper with key findings
+3. **Introduction**: Comprehensive introduction (800-1200 words) with extensive background, historical context, literature review, research gap identification, research questions, and objectives. Include multiple in-text citations from the provided references.
+4. **Methods**: Detailed methodology section (700-1000 words) explaining research design, theoretical framework, data collection methods, sampling strategies, analysis techniques, and validation procedures. Include citations where appropriate.
+5. **Results**: Extensive presentation of findings (900-1200 words) with detailed analysis, patterns, trends, statistical insights, and comparisons with existing literature. Reference multiple studies from the provided references.
+6. **Discussion**: In-depth interpretation (900-1200 words) of results, theoretical implications, practical applications, comparison with existing literature, limitations of the study, and alternative explanations. Use citations extensively throughout.
+7. **Conclusion**: Comprehensive summary (500-700 words) of key findings, theoretical contributions, practical implications, study limitations, recommendations for future research, and final thoughts.
 
-IMPORTANT:
-- Use in-text citations throughout (e.g., for APA: (Author, Year) or Author (Year))
-- Make citations relevant to the content
-- The paper should be academically rigorous and coherent
-- Each section should be at least 200 words
+CRITICAL REQUIREMENTS:
+- Each section MUST be substantial and detailed to achieve 10+ page length
+- Use in-text citations extensively throughout ALL sections (e.g., for APA: (Author, Year) or Author (Year))
+- Cite at least 15-20 different references throughout the paper
+- Include specific details, examples, and thorough explanations in every section
+- The paper should be academically rigorous, coherent, and publication-quality
+- Write in formal academic language with varied sentence structure
+- Each paragraph should be 4-6 sentences minimum
 - Respond in JSON format with keys: title, abstract, introduction, methods, results, discussion, conclusion`;
 
   try {

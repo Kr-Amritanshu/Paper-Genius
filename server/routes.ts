@@ -15,7 +15,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Topic is required' });
       }
 
-      const references = await fetchReferences(topic, 10);
+      const references = await fetchReferences(topic, 20);
 
       if (references.length === 0) {
         return res.status(404).json({ 
