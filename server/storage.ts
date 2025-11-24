@@ -1,37 +1,43 @@
-import { type User, type InsertUser } from "@shared/schema";
+import { type ResearchPaper, type InsertResearchPaper } from "@shared/schema";
 import { randomUUID } from "crypto";
 
-// modify the interface with any CRUD methods
-// you might need
-
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getPaper(id: string): Promise<ResearchPaper | undefined>;
+  getAllPapers(): Promise<ResearchPaper[]>;
+  createPaper(paper: InsertResearchPaper): Promise<ResearchPaper>;
+  deletePaper(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private papers: Map<string, ResearchPaper>;
 
   constructor() {
-    this.users = new Map();
+    this.papers = new Map();
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getPaper(id: string): Promise<ResearchPaper | undefined> {
+    return this.papers.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+  async getAllPapers(): Promise<ResearchPaper[]> {
+    return Array.from(this.papers.values()).sort(
+      (a, b) => new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime()
     );
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async createPaper(insertPaper: InsertResearchPaper): Promise<ResearchPaper> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const paper: ResearchPaper = {
+      ...insertPaper,
+      id,
+      generatedAt: new Date().toISOString(),
+    };
+    this.papers.set(id, paper);
+    return paper;
+  }
+
+  async deletePaper(id: string): Promise<boolean> {
+    return this.papers.delete(id);
   }
 }
 
