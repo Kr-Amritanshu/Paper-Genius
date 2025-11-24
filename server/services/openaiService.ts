@@ -1,12 +1,12 @@
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import type { Reference } from "./semanticScholar";
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('OPENAI_API_KEY environment variable is required');
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error('GEMINI_API_KEY environment variable is required');
 }
 
-// the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// Note that the newest Gemini model series is "gemini-2.5-flash" or "gemini-2.5-pro"
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 interface GeneratedPaper {
   title: string;
@@ -51,23 +51,29 @@ IMPORTANT:
 - Respond in JSON format with keys: title, abstract, introduction, methods, results, discussion, conclusion`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-5",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert academic research paper writer. Generate well-structured, professionally written research papers with proper citations."
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      config: {
+        systemInstruction: "You are an expert academic research paper writer. Generate well-structured, professionally written research papers with proper citations.",
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
+          properties: {
+            title: { type: "string" },
+            abstract: { type: "string" },
+            introduction: { type: "string" },
+            methods: { type: "string" },
+            results: { type: "string" },
+            discussion: { type: "string" },
+            conclusion: { type: "string" },
+          },
+          required: ["title", "abstract", "introduction", "methods", "results", "discussion", "conclusion"],
         },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      response_format: { type: "json_object" },
-      max_completion_tokens: 8192,
+      },
+      contents: prompt,
     });
 
-    const result = JSON.parse(response.choices[0].message.content || '{}');
+    const result = JSON.parse(response.text || '{}');
 
     return {
       title: result.title || `Research Paper on ${topic}`,
@@ -79,7 +85,7 @@ IMPORTANT:
       conclusion: result.conclusion || '',
     };
   } catch (error) {
-    console.error('Error generating research paper with OpenAI:', error);
+    console.error('Error generating research paper with Gemini:', error);
     throw new Error('Failed to generate research paper');
   }
 }
